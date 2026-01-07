@@ -1,36 +1,48 @@
 # FontsTrans 桌面工具
 
+**FontsTrans** 是一款专业的字体转换与子集化压缩工具，能够将庞大的 TTF/OTF 字体文件精简为适合网页使用的极小体积 WOFF2 格式。
+
 本仓库包含两个子项目：
 
-- `py/`：Python CLI（TTF → WOFF2，支持常用字子集化），使用 `uv` 管理依赖，并提供 PyInstaller 打包脚本。
-- `desktop/`：Electron + React 前端，使用 `pnpm` 管理依赖，打包时会把 PyInstaller 产物和内置常用字表一起打进安装包。
+- `py/`：基于 `fontTools` 和 `otf2ttf` 的核心引擎。支持 TTF/OTF 解析、按字表子集化、以及 WOFF2 压缩。使用 `uv` 管理高性能 Python 环境。
+- `desktop/`：基于 Electron + React 的跨平台桌面端。提供极具质感的深色玻璃拟态 (Glassmorphism) 界面，支持实时转换日志查看。
 
-## 环境要求
+## 核心特性
 
-- Python 3.10+（建议 3.12，与 uv 兼容）
-- [uv](https://docs.astral.sh/uv/) 0.8+：用于管理 Python 依赖与运行 CLI / PyInstaller。
-- Node.js 20+，建议使用 [pnpm](https://pnpm.io/)（本项目锁定 `pnpm-lock.yaml`）。
-- Windows 开启“开发者模式”或以管理员运行终端，以便 electron-builder 可以创建符号链接（`signAndEditExecutable=true`）。
+- **双格式支持**: 完美支持 `.ttf` 和 `.otf` 格式输入。
+- **内存级子集化**: 精准按需裁剪字体，支持 3500 字/7000 字内置常用字方案，或自定义 `.txt` 字表。
+- **极致压缩**: 采用 WOFF2 标准压缩，大幅提升网页字体加载速度。
+- **尊享界面**: 现代深色模式 UI，操作直观，交互丝滑。
+- **零依赖运行**: 打包后的版本内置 Python 运行环境，由于不再需要用户手动安装环境。
+
+## 环境要求 (用于开发)
+
+- **Python 3.12+**: 建议配套 [uv](https://docs.astral.sh/uv/)。
+- **Node.js 20+**: 建议使用 [pnpm](https://pnpm.io/)。
+- **Windows**: 建议开启“开发者模式”以优化构建环境。
 
 ## 快速开始
 
+### 1. 开发模式
 ```bash
-# 1. 安装 Python 依赖
+# 准备 Python 环境
 cd py
 uv sync
-uv run python src/ttf2woff2.py --help
 
-# 2. Windows 打包 Python CLI
-uv run powershell -ExecutionPolicy Bypass -File build-win.ps1
-
-# 3. 安装桌面端依赖
+# 启动桌面端
 cd ../desktop
 pnpm install
-
-# 4. 开发模式
 pnpm run dev
+```
 
-# 5. 打包安装包（会读取 desktop/py 中的 ttf2woff2.exe + 常用字表）
+### 2. 生产打包
+```bash
+# 第一步：构建 Python 二进制 (Windows 示例)
+cd py
+uv run powershell -ExecutionPolicy Bypass -File build-win.ps1
+
+# 第二步：构建 Electron 安装包
+cd ../desktop
 pnpm run build
 ```
 
@@ -38,23 +50,18 @@ pnpm run build
 
 ```
 fontsTrans/
-├── README.md                # 当前文档
+├── README.md                # 概览文档
 ├── py/
-│   ├── src/ttf2woff2.py
-│   ├── build-win.ps1        # Windows: uv + PyInstaller 打包
-│   ├── build-mac.sh         # macOS: uv + PyInstaller 打包
-│   ├── dist/win32/          # PyInstaller 输出，build-win.ps1 会同步到 desktop/py/win32
-│   └── dist/darwin/         # macOS 构建产物放这里，再复制到 desktop/py/darwin
+│   ├── src/ttf2woff2.py     # 转换引擎核心
+│   └── pyproject.toml       # Python 依赖 (fonttools, brotli, otf2ttf)
 └── desktop/
-    ├── electron/            # 主进程 + preload
-    ├── shared/              # IPC 类型
-    ├── src/                 # React UI
-    ├── py/                  # 随 Electron 打包的 Python 可执行文件
-    └── resources/common_chars/  # 内置常用字表（3500 / 7000）
+    ├── electron/            # Main 进程逻辑 (IPC, 进程调度)
+    ├── src/                 # React UI (深色玻璃拟态方案)
+    └── resources/common_chars/  # 内置常用字表资源
 ```
 
-## 常见问题
+## 注意事项
 
-- **TypeScript lint 警告**：当前 `typescript@5.9.3` 超出 `@typescript-eslint` 官方支持范围，会看到警告但不影响构建。若需消除，降至 5.5.x。
-- **Electron 构建权限**：Windows 如提示 `Cannot create symbolic link`，请开启“开发者模式”或以管理员运行命令。
-- **Python 依赖找不到**：确认已经在 `py/` 目录执行过 `uv sync`，并在运行 CLI/脚本时使用 `uv run ...`。
+- **子集化范围**: 如果没有提供常用字表，工具将执行全量转换。
+- **日志乱码**: 已修复 Windows 终端下的 UTF-8 编码问题，确保日志中的中文字符清晰可见。
+- **权限问题**: 在打包或开发时，如遇到符号链接创建失败，请尝试以管理员身份运行终端。
