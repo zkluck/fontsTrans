@@ -1,0 +1,20 @@
+# Python build artifacts
+py/.pyinstaller_build/
+py/.pyinstaller_spec/
+py/dist/
+!py/dist/**/.gitkeep
+py/.venv/
+py/.uv-cache/
+**/__pycache__/
+
+# Node / desktop artifacts
+desktop/node_modules/
+desktop/dist/
+desktop/dist-electron/
+desktop/release/
+desktop/.vite/
+
+# Logs & OS files
+*.log
+.DS_Store
+Thumbs.db
