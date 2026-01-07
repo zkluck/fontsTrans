@@ -132,13 +132,17 @@ function resolvePythonCli(): {
     };
   }
 
-  // 说明：macOS 上常见是 `python3`，Windows 上常见是 `python`。
-  // 这里按平台给一个更高概率可用的默认值。
-  const pythonCommand = process.platform === 'darwin' ? 'python3' : 'python';
+  // 开发态：使用 uv run python 确保依赖环境正确。
   const scriptPath = path.join(pythonSrcDir, 'ttf2woff2.py');
   return {
-    command: pythonCommand,
-    argsPrefix: [scriptPath],
+    command: 'uv',
+    argsPrefix: [
+      'run',
+      '--project',
+      path.join(repoRoot, 'py'),
+      'python',
+      scriptPath,
+    ],
     cwd: repoRoot,
   };
 }
@@ -181,12 +185,6 @@ function runConvert(
     if (request.commonCharsPath) {
       args.push('--common-chars', request.commonCharsPath);
     }
-    if (!request.includeBasicAscii) {
-      args.push('--no-basic-ascii');
-    }
-    if (!request.includeBasicCjkPunct) {
-      args.push('--no-basic-cjk-punct');
-    }
     if (request.encoding) {
       args.push('--encoding', request.encoding);
     }
@@ -194,6 +192,10 @@ function runConvert(
     const child = spawn(command, args, {
       cwd,
       windowsHide: true,
+      env: {
+        ...process.env,
+        PYTHONIOENCODING: 'utf-8',
+      },
     });
 
     // 把 Python 的 stdout/stderr 变成“日志事件”推送给渲染进程。
@@ -261,7 +263,7 @@ function createWindow() {
 
       const result = await dialog.showOpenDialog(browserWindow, {
         properties: ['openFile'],
-        filters: [{ name: 'TTF', extensions: ['ttf'] }],
+        filters: [{ name: 'Font Files (TTF/OTF)', extensions: ['ttf', 'otf'] }],
       });
 
       if (result.canceled || result.filePaths.length === 0) return null;

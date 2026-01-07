@@ -1,49 +1,15 @@
-# 使用 FontTools 将 TTF 直接保存为 WOFF2
-# 说明：
-# 1. TTFont 读取原始 TTF 文件
-# 2. 设置 flavor 为 'woff2' 告诉 FontTools 输出 WOFF2 格式
-# 3. save() 写出目标文件，不做子集化，保留字体全部表
-
+import os
+import sys
+import argparse
 from fontTools.ttLib import TTFont  # 导入 FontTools 的 TTFont
 from fontTools import subset  # 导入 FontTools 的子集化模块，用于仅保留指定字符
 from typing import Optional  # 导入 Optional，用于兼容 Python 3.8/3.9 的可选类型标注
 
-
-# 基础字符集合（可打印 ASCII 字符）。
-# 用途：
-#   - 你只维护汉字常用字表时，也能默认保留英文/数字/标点等字符，避免子集后页面出现缺字。
-# 说明：
-#   - 范围为 U+0020(空格) ~ U+007E(~)，不包含换行等控制字符。
-BASIC_ASCII_TEXT = "".join(chr(code) for code in range(0x20, 0x7F))
-
-
-# 常用中文标点与中文排版常见字符。
-# 用途：
-#   - 常用字表通常只覆盖汉字，可能不包含“，。！？《》【】（）”等中文标点。
-#   - 全角空格（U+3000）在中文排版中也比较常见，默认一起保留，避免子集后出现缺字。
-BASIC_CJK_PUNCT_TEXT = "，。！？、；：‘’“”《》【】（）—…·　"
-
-
-def _build_subset_text(
-    primary_text: str,
-    include_basic_ascii: bool,
-    include_basic_cjk_punct: bool,
-) -> str:
-    """构造用于子集化的最终字符集合。
-
-    参数：
-      - primary_text: 你提供的“常用字/字符集合”（通常来自文件或直接传入）
-      - include_basic_ascii: 是否自动追加英文/数字/标点等基础字符集合
-      - include_basic_cjk_punct: 是否自动追加常用中文标点与全角空格
-    """
-    # primary_text 可能包含换行/空格等，这里不做复杂清洗；文件读取函数会做空白规整。
-    final_text = primary_text
-    if include_basic_ascii:
-        final_text += BASIC_ASCII_TEXT
-    if include_basic_cjk_punct:
-        final_text += BASIC_CJK_PUNCT_TEXT
-
-    return final_text
+# 尝试导入 otf2ttf，用于支持 OTF 转换
+try:
+    from otf2ttf.cli import otf_to_ttf
+except ImportError:
+    otf_to_ttf = None
 
 
 def _read_common_text_from_file(file_path: str, encoding: str = "utf-8") -> str:
@@ -110,37 +76,50 @@ def ttf_to_woff2(
     output_path: str,
     common_chars_path: Optional[str] = None,
     common_text: Optional[str] = None,
-    include_basic_ascii: bool = True,
-    include_basic_cjk_punct: bool = True,
     common_chars_encoding: str = "utf-8",
 ) -> None:
     """
-    将 TTF 转换为 WOFF2 的简洁函数。
+    将 TTF/OTF 转换为 WOFF2 的简洁函数。
     参数：
-      - input_path: 输入 TTF 文件路径
+      - input_path: 输入 TTF/OTF 文件路径
       - output_path: 输出 WOFF2 文件路径
       - common_chars_path: 常用字 txt 文件路径（提供则会先做子集化再转换）
       - common_text: 直接传入常用字字符串（提供则会先做子集化再转换）
-      - include_basic_ascii: 是否自动追加英文/数字/标点等基础字符（默认 True，推荐开启）
-      - include_basic_cjk_punct: 是否自动追加常用中文标点与全角空格（默认 True，推荐开启）
       - common_chars_encoding: 读取 common_chars_path 时使用的编码（默认 utf-8）
     """
-    font = TTFont(input_path)      # 读取 TTF
+    print(f"正在读取字体: {input_path}", flush=True)
+    font = TTFont(input_path)
+
+    # 检测并处理 OTF 转换
+    is_otf = input_path.lower().endswith(".otf") or font.sfntVersion == "OTTO"
+    if is_otf:
+        if otf_to_ttf is None:
+            raise ImportError("未发现 otf2ttf 库，无法转换 OTF 文件。请先安装: pip install otf2ttf")
+        print(f"检测到 OTF 格式，正在执行内存转换: {input_path}", flush=True)
+        try:
+            otf_to_ttf(font)
+            print("OTF 已成功转换为 TTF (In-Memory)", flush=True)
+        except Exception as e:
+            print(f"OTF 转 TTF 失败: {e}", flush=True)
+            raise
 
     # 如果提供了常用字，则先对子集化（仅保留这些字符需要的字形）。
     # 说明：
     #   - common_text 优先级高于 common_chars_path
     #   - 两者都不提供时，保持原行为：完整转换（不做子集化）
     if common_text is not None:
-        final_text = _build_subset_text(common_text, include_basic_ascii, include_basic_cjk_punct)
-        _subset_font_by_text(font, final_text)
+        print("正在按传入文本进行子集化...", flush=True)
+        _subset_font_by_text(font, common_text)
     elif common_chars_path is not None:
+        print(f"正在读取常用字表: {common_chars_path}", flush=True)
         file_text = _read_common_text_from_file(common_chars_path, encoding=common_chars_encoding)
-        final_text = _build_subset_text(file_text, include_basic_ascii, include_basic_cjk_punct)
-        _subset_font_by_text(font, final_text)
+        print("正在执行子集化转换...", flush=True)
+        _subset_font_by_text(font, file_text)
 
+    print("正在保存渲染为 woff2 格式...", flush=True)
     font.flavor = "woff2"          # 指定输出格式为 WOFF2（依赖 brotli）
     font.save(output_path)         # 写出结果
+    print(f"转换成功! 已保存至: {output_path}", flush=True)
 
 
 def _main() -> None:
@@ -150,13 +129,13 @@ def _main() -> None:
       - 让你可以直接在终端运行该脚本进行转换，而不是改代码。
     示例：
       - python ttf2woff2.py --input a.ttf --output a.woff2
+      - python ttf2woff2.py --input a.otf --output a.woff2
       - python ttf2woff2.py --input a.ttf --output a.woff2 --common-chars common_chars.txt
       - python ttf2woff2.py --input a.ttf --output a.woff2 --common-text "你好abc123"
     """
-    import argparse  # 标准库 argparse，用于解析命令行参数
 
-    parser = argparse.ArgumentParser(description="将 TTF 转换为 WOFF2，并支持按常用字子集化")
-    parser.add_argument("--input", required=True, help="输入 TTF 文件路径")
+    parser = argparse.ArgumentParser(description="将 TTF/OTF 转换为 WOFF2，并支持按常用字子集化")
+    parser.add_argument("--input", required=True, help="输入 TTF/OTF 文件路径")
     parser.add_argument("--output", required=True, help="输出 WOFF2 文件路径")
     parser.add_argument(
         "--common-chars",
@@ -167,16 +146,6 @@ def _main() -> None:
         "--common-text",
         default=None,
         help="直接传入常用字字符串（提供则先子集化再转换；优先级高于 --common-chars）",
-    )
-    parser.add_argument(
-        "--no-basic-ascii",
-        action="store_true",
-        help="禁用自动追加英文/数字/标点等基础字符集合（默认会追加，推荐保留）",
-    )
-    parser.add_argument(
-        "--no-basic-cjk-punct",
-        action="store_true",
-        help="禁用自动追加常用中文标点与全角空格（默认会追加，推荐保留）",
     )
     parser.add_argument(
         "--encoding",
@@ -191,8 +160,6 @@ def _main() -> None:
         output_path=str(args.output),
         common_chars_path=None if args.common_chars is None else str(args.common_chars),
         common_text=None if args.common_text is None else str(args.common_text),
-        include_basic_ascii=not bool(args.no_basic_ascii),
-        include_basic_cjk_punct=not bool(args.no_basic_cjk_punct),
         common_chars_encoding=str(args.encoding),
     )
 

@@ -2,7 +2,7 @@
   "name": "fonts-trans-desktop",
   "private": true,
   "version": "0.0.0",
-  "description": "TTF 转 WOFF2 的跨平台桌面工具，支持常用字子集化并内置 Python 可执行文件。",
+  "description": "TTF/OTF 转 WOFF2 的跨平台桌面工具，支持常用字子集化并内置 Python 可执行文件。",
   "author": "zk",
   "license": "MIT",
   "type": "module",

@@ -29,8 +29,6 @@ export type ConvertRequest = {
   inputPath: string;
   outputPath: string;
   commonCharsPath: string | null;
-  includeBasicAscii: boolean;
-  includeBasicCjkPunct: boolean;
   encoding: string;
 };
 

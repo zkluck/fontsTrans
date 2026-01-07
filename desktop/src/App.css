@@ -1,162 +1,261 @@
+/* FontsTrans App Modern Premium Styles */
+
+:root {
+  --color-bg: #0f172a;
+  --color-surface: rgba(30, 41, 59, 0.7);
+  --color-border: rgba(255, 255, 255, 0.1);
+  --color-primary: #38bdf8;
+  --color-primary-hover: #0ea5e9;
+  --color-secondary: #64748b;
+  --color-text: #f1f5f9;
+  --color-text-dim: #94a3b8;
+  --color-success: #22c55e;
+  --color-error: #ef4444;
+  --glass-blur: 12px;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--color-bg);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
+}
+
 .fontsTransApp {
-  width: 960px;
-  max-width: calc(100vw - 32px);
-  margin: 0 auto;
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 0 20px;
 }
 
 .fontsTransApp__header {
-  margin-bottom: 16px;
+  margin-bottom: 32px;
+  text-align: center;
 }
 
 .fontsTransApp__title {
-  font-size: 20px;
-  font-weight: 700;
-  line-height: 28px;
+  font-size: 36px;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  background: linear-gradient(to right, #38bdf8, #818cf8);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 8px;
 }
 
 .fontsTransApp__subtitle {
-  margin-top: 4px;
-  font-size: 12px;
-  opacity: 0.8;
+  font-size: 16px;
+  color: var(--color-text-dim);
 }
 
 .fontsTransApp__panel {
-  padding: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--color-surface);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+  padding: 32px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  margin-bottom: 24px;
+}
+
+.fontsTransApp__section {
+  margin-bottom: 32px;
+}
+
+.fontsTransApp__sectionTitle {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 16px;
+  display: block;
 }
 
 .fontsTransApp__row {
   display: flex;
   align-items: center;
-  padding: 10px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  margin-bottom: 16px;
 }
 
-.fontsTransApp__row--options {
-  align-items: flex-start;
-}
-
-.fontsTransApp__row--actions {
-  border-bottom: none;
-  padding-bottom: 0;
-}
-.fontsTransApp__row--builtin {
-  align-items: flex-start;
+.fontsTransApp__row:last-child {
+  margin-bottom: 0;
 }
 
 .fontsTransApp__label {
-  width: 100px;
-  font-size: 12px;
-  opacity: 0.85;
-  flex: 0 0 auto;
+  flex: 0 0 120px;
+  font-size: 14px;
+  color: var(--color-text-dim);
+}
+
+.fontsTransApp__displayArea {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  background: rgba(15, 23, 42, 0.5);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  padding: 8px 16px;
+  margin-right: 12px;
+  min-width: 0;
 }
 
 .fontsTransApp__value {
-  flex: 1 1 auto;
-  font-size: 12px;
-  line-height: 18px;
-  opacity: 0.95;
-  word-break: break-all;
-  margin-right: 12px;
+  font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--color-text);
 }
 
 .fontsTransApp__button {
-  flex: 0 0 auto;
-  padding: 6px 10px;
+  height: 38px;
+  padding: 0 20px;
   border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  background: rgba(255, 255, 255, 0.06);
+  font-size: 13px;
+  font-weight: 600;
   cursor: pointer;
+  border: 1px solid var(--color-border);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--color-text);
+  transition: all 0.2s;
+  white-space: nowrap;
 }
 
-.fontsTransApp__button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+.fontsTransApp__button:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-1px);
 }
 
 .fontsTransApp__button--primary {
-  border-color: rgba(100, 108, 255, 0.8);
-  background: rgba(100, 108, 255, 0.18);
-  margin-right: 10px;
+  background: linear-gradient(135deg, #38bdf8, #6366f1);
+  border: none;
+  height: 48px;
+  font-size: 15px;
+}
+
+.fontsTransApp__button--primary:hover:not(:disabled) {
+  box-shadow: 0 4px 15px rgba(56, 189, 248, 0.4);
 }
 
 .fontsTransApp__button--secondary {
   margin-left: 10px;
 }
 
+.fontsTransApp__button--builtin {
+  background: rgba(56, 189, 248, 0.1);
+  color: var(--color-primary);
+  border-color: rgba(56, 189, 248, 0.2);
+  margin-right: 8px;
+  margin-bottom: 8px;
+}
+
+.fontsTransApp__button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  filter: grayscale(1);
+}
+
+.fontsTransApp__builtinList {
+  display: block;
+  margin-top: 8px;
+}
+
 .fontsTransApp__options {
-  flex: 1 1 auto;
+  display: flex;
+  margin-top: 4px;
 }
 
 .fontsTransApp__checkbox {
   display: flex;
   align-items: center;
-  margin-bottom: 10px;
+  margin-right: 24px;
+  cursor: pointer;
+}
+
+.fontsTransApp__checkbox input {
+  margin-right: 8px;
 }
 
 .fontsTransApp__checkboxText {
-  margin-left: 8px;
-  font-size: 12px;
+  font-size: 14px;
 }
 
-.fontsTransApp__field {
+.fontsTransApp__selectField {
   display: flex;
   align-items: center;
-  margin-top: 2px;
-}
-
-.fontsTransApp__fieldLabel {
-  width: 70px;
-  font-size: 12px;
-  opacity: 0.85;
-  margin-right: 10px;
+  margin-left: auto;
 }
 
 .fontsTransApp__select {
-  padding: 6px 8px;
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  background: rgba(255, 255, 255, 0.06);
+  background: #1e293b;
+  color: white;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-size: 13px;
+  margin-left: 8px;
+}
+
+.fontsTransApp__actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 40px;
 }
 
 .fontsTransApp__status {
-  margin-top: 12px;
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.9);
+  margin-top: 24px;
+  text-align: center;
+  font-size: 14px;
+  padding: 10px;
+  border-radius: 8px;
+  background: rgba(34, 197, 94, 0.1);
+  color: var(--color-success);
 }
 
 .fontsTransApp__logPanel {
-  margin-top: 16px;
-  padding: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 10px;
-  background: rgba(0, 0, 0, 0.16);
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  padding: 24px;
+}
+
+.fontsTransApp__logHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
 }
 
 .fontsTransApp__logTitle {
   font-size: 12px;
-  opacity: 0.8;
+  font-weight: 700;
+  color: var(--color-text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
 }
 
 .fontsTransApp__log {
-  margin-top: 10px;
-  height: 260px;
-  overflow: auto;
+  height: 250px;
+  overflow-y: auto;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #cad1d9;
   white-space: pre-wrap;
-  word-break: break-word;
-  font-size: 12px;
-  line-height: 18px;
+  word-break: break-all;
 }
 
-.fontsTransApp__builtinList {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+.fontsTransApp__log::-webkit-scrollbar {
+  width: 8px;
 }
 
-.fontsTransApp__button--builtin {
-  margin: 0;
-  font-size: 12px;
+.fontsTransApp__log::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
 }
+

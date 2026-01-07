@@ -70,12 +70,37 @@ wheels = [
 ]
 
 [[package]]
+name = "cu2qu"
+version = "1.6.7.post2"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "fonttools" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/ce/11/4bb73fad483f535c5baa0c27646a62f52f07f4aac48dc28671a8dd080573/cu2qu-1.6.7.post2.zip", hash = "sha256:1df562d99bd6059226088f443702bf51cfdd8cc63623f23137459a78d7bf5808", size = 136950, upload-time = "2022-11-16T13:20:26.341Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/8d/f6/bef989853c751c86d5b23808009a6856b041212b8c42d804192dd3301b77/cu2qu-1.6.7.post2-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:478b0e1b1b71111d11405d7dec1cb37221a4507f3ee357d45a992403813da3de", size = 233310, upload-time = "2022-11-16T13:19:37.153Z" },
+    { url = "https://files.pythonhosted.org/packages/e0/40/d7ff55c2043af3b07251888b155672e5838752ccfe4491af06fa3ead7da1/cu2qu-1.6.7.post2-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:3bd952466f1e17424ca2041acde5bbfebb21a31ce0fd05b655536d062cee38b5", size = 173532, upload-time = "2022-11-16T13:19:39.138Z" },
+    { url = "https://files.pythonhosted.org/packages/50/25/249dcc6249cdd2a506afb532bf3e3a3615fd28369b8a078c94524ec55265/cu2qu-1.6.7.post2-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:f88cc3c0231f552d215424b9d8a66af61ab99a58a3d88389799ae9fcae91acb7", size = 165640, upload-time = "2022-11-16T13:19:40.712Z" },
+    { url = "https://files.pythonhosted.org/packages/b0/24/594189a4146db94f1498c1b12434ca0f7893b8c8add19484d30b82ac942c/cu2qu-1.6.7.post2-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:cfe8b803c00ed06052ca955f8074d057795b1da775c3ad858c8f8ea9bbc65a3a", size = 455816, upload-time = "2022-11-16T13:20:00.289Z" },
+    { url = "https://files.pythonhosted.org/packages/84/74/071129713e180b292bfab7b224dc3a7249949bc2e3bf4559191429cc6fe1/cu2qu-1.6.7.post2-cp310-cp310-musllinux_1_1_x86_64.whl", hash = "sha256:4c32bbaf9de590e77f5849d183ec4efc88f6ea2d61519a4806b7f130d1990367", size = 454662, upload-time = "2022-11-16T13:20:02.099Z" },
+    { url = "https://files.pythonhosted.org/packages/0b/ae/42e32dd5c98e32f3106fc1d30ac9a11afb745cf317763249772cd98840a2/cu2qu-1.6.7.post2-cp310-cp310-win_amd64.whl", hash = "sha256:015aebf362913054836e40b92782d5938b009925dd2a3d12fee8d44bfff58099", size = 78095, upload-time = "2022-11-16T13:20:18.763Z" },
+    { url = "https://files.pythonhosted.org/packages/ca/af/dcfa2c031f070a64889fed404fa6ba2bfc58b32fa8b57673c8e0adbbf4b6/cu2qu-1.6.7.post2-cp311-cp311-macosx_10_9_universal2.whl", hash = "sha256:7224d280b9d971299a8c9f7939fe6e6151534c0b620643d485d2cd3d3a163772", size = 232937, upload-time = "2022-11-16T13:19:42.377Z" },
+    { url = "https://files.pythonhosted.org/packages/bb/59/fc2088a5439cbb98ba7ce5cc4b5b1105079c72693454c24700c45f727680/cu2qu-1.6.7.post2-cp311-cp311-macosx_10_9_x86_64.whl", hash = "sha256:f8fa293a20d962008bf25af27e0992cd78bb061fbe342447c30af8bbefc2e0e7", size = 173452, upload-time = "2022-11-16T13:19:43.597Z" },
+    { url = "https://files.pythonhosted.org/packages/af/15/6973ca7a9bd50e778cd499f360ba2cf449912d243c783a6b710c2af84ad9/cu2qu-1.6.7.post2-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:a8eda789c8eb042d3535bdf3d5a063614e115935f2f9ed364d90d92da7b9a140", size = 165298, upload-time = "2022-11-16T13:19:44.799Z" },
+    { url = "https://files.pythonhosted.org/packages/2c/dc/ffe23da3107f10d9c019f304556463a549b9ba26104073bd0b0162c073de/cu2qu-1.6.7.post2-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:0d113882b4a48b1f587b91cb4064a173065bd3b89a841d2a3bfd9e81f007467c", size = 473289, upload-time = "2022-11-16T13:20:03.525Z" },
+    { url = "https://files.pythonhosted.org/packages/08/eb/44b0bdb45050c0aa73db13d3234f456187267a997d34c343d4627d1dd571/cu2qu-1.6.7.post2-cp311-cp311-musllinux_1_1_x86_64.whl", hash = "sha256:51c185580585e98d18e537521945f72e77f1954df16627b516be6d5bf5d1e26b", size = 468123, upload-time = "2022-11-16T13:20:05.511Z" },
+    { url = "https://files.pythonhosted.org/packages/a1/7b/e0492e1cbeea0425082936a059c1608f1e2b166ecacbc7bfc589066aeefd/cu2qu-1.6.7.post2-cp311-cp311-win_amd64.whl", hash = "sha256:2961a49959c2c7b518c108f505041d9c8b48ca7b3690277b8b6abd026fc57aad", size = 77330, upload-time = "2022-11-16T13:20:19.968Z" },
+    { url = "https://files.pythonhosted.org/packages/95/fc/3ab12da45eeffc25e2411ff2c93550a5e8d1c354019653bdc2babe7538d1/cu2qu-1.6.7.post2-py2.py3-none-any.whl", hash = "sha256:7f0f529889471dab0c1ab6ed8d3a252bbc6902a28024f80168af63ae297cb19d", size = 24069, upload-time = "2022-11-16T13:19:58.901Z" },
+]
+
+[[package]]
 name = "fonts-trans-cli"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
     { name = "brotli" },
     { name = "fonttools" },
+    { name = "otf2ttf" },
 ]
 
 [package.optional-dependencies]
@@ -87,6 +112,7 @@ build = [
 requires-dist = [
     { name = "brotli", specifier = ">=1.1.0" },
     { name = "fonttools", specifier = ">=4.58.0" },
+    { name = "otf2ttf", specifier = ">=0.2" },
     { name = "pyinstaller", marker = "extra == 'build'", specifier = ">=6.6.0" },
 ]
 provides-extras = ["build"]
@@ -158,6 +184,19 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/10/2f/97589876ea967487978071c9042518d28b958d87b17dceb7cdc1d881f963/macholib-1.16.4.tar.gz", hash = "sha256:f408c93ab2e995cd2c46e34fe328b130404be143469e41bc366c807448979362", size = 59427, upload-time = "2025-11-22T08:28:38.373Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/c7/d1/a9f36f8ecdf0fb7c9b1e78c8d7af12b8c8754e74851ac7b94a8305540fc7/macholib-1.16.4-py2.py3-none-any.whl", hash = "sha256:da1a3fa8266e30f0ce7e97c6a54eefaae8edd1e5f86f3eb8b95457cae90265ea", size = 38117, upload-time = "2025-11-22T08:28:36.939Z" },
+]
+
+[[package]]
+name = "otf2ttf"
+version = "0.2"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "cu2qu" },
+    { name = "fonttools" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/f2/b0/743e71a48c27e4091dbbc74c54112809d58ef022bf7f05a9757c30c19de9/otf2ttf-0.2.tar.gz", hash = "sha256:6a384863512b0ea1764a681afd6b94921491b893854aadba9e7e01969f401b16", size = 3459, upload-time = "2019-09-10T06:56:02.098Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/7a/b4/6e94eb8df93b3bc00ae1f6989627585dd53e22749c5cc0f41e19e693e196/otf2ttf-0.2-py2.py3-none-any.whl", hash = "sha256:d74e91b1a5650b3ca405f4cad7db942515d797a5ddb11d1e113f947975ad9e18", size = 4556, upload-time = "2019-09-10T06:56:00.946Z" },
 ]
 
 [[package]]
